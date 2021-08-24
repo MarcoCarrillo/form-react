@@ -2,13 +2,16 @@ import React, {useState} from 'react'
 
 const Formulario = () => {
 
-    //State
+    //State del formulario
     const [formulario, actualizarForm] = useState({
         nombre:'',
         email:'',
         telefono:'',
         mensaje:''
     });
+    
+    //state de error
+    const [error, actualizarError] = useState(false);
 
     //Actualizar state cuando se escriba en el input
     const actualizarState = e =>{
@@ -21,13 +24,28 @@ const Formulario = () => {
     //Destructuring
     const {nombre, email, telefono, mensaje} = formulario;
 
+    //On submit formulario
+    const onSubmit = e => {
+        e.preventDefault();
+
+        //Validar campos
+        if(nombre.trim() ==='' || email.trim() ==='' || telefono.trim ==='' || mensaje.trim() ==='') {
+            actualizarError(true);
+            return;
+        }
+
+        actualizarError(false);
+
+    }
+
     return ( 
         <div className="container p-4">
             <div className="row">
                 <div className="col-md-6 offset-md-3">
                     <div className="card">
                         <div className="card-body">
-                            <form>
+                            { error ? <p className="text-danger">Todos los campos son obligatorios</p> : null}
+                            <form onSubmit={onSubmit} className="needs-validation" novalidate>
                                 <div className="mb-3">
                                     <label className="form-label">Nombre</label>
                                     <input 
@@ -38,6 +56,7 @@ const Formulario = () => {
                                         placeholder="Nombre completo" 
                                         onChange={actualizarState}
                                         value={nombre}
+                                        required
                                     />
                                 </div>
                                 <div className="mb-3">
