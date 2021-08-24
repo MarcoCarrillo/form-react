@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react';
+import formularioContext from '../context/formulario/formularioContext';
 
 const Formulario = () => {
 
@@ -9,6 +10,9 @@ const Formulario = () => {
         telefono:'',
         mensaje:''
     });
+
+    // const formContext = useContext(formularioContext);
+    // const {envioForm} = formContext;
     
     //state de error
     const [error, actualizarError] = useState(false);
@@ -36,6 +40,15 @@ const Formulario = () => {
 
         actualizarError(false);
 
+        // envioForm(formulario);
+
+        actualizarForm({
+            nombre:'',
+            email:'',
+            telefono:'',
+            mensaje:''
+        })
+
     }
 
     return ( 
@@ -45,7 +58,7 @@ const Formulario = () => {
                     <div className="card">
                         <div className="card-body">
                             { error ? <p className="text-danger">Todos los campos son obligatorios</p> : null}
-                            <form onSubmit={onSubmit} className="needs-validation" novalidate>
+                            <form onSubmit={onSubmit} className="needs-validation">
                                 <div className="mb-3">
                                     <label className="form-label">Nombre</label>
                                     <input 
