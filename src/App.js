@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import Formulario from './components/Formulario';
 
 function App() {
   return (
-    <h1>Hola mundo</h1>
+    <Fragment>
+      <h1>Formulario de contacto</h1>
+      <Formulario />
+    </Fragment>
+    
   );
 }
 
