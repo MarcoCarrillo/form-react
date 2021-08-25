@@ -20,6 +20,9 @@ const Formulario = () => {
     //state de respuesta
     const [respuesta, actualizarRespuesta] = useState(false);
 
+    //error conexion
+    const [errorConexion, actualizarConexion] = useState(false);
+
     //Actualizar state cuando se escriba en el input
     const actualizarState = e =>{
         actualizarForm({
@@ -39,6 +42,7 @@ const Formulario = () => {
             actualizarRespuesta(true);
         } catch (error) {
             console.log(error);
+            actualizarConexion(true);
         }
 
         if(!error){
@@ -74,8 +78,9 @@ const Formulario = () => {
             <div className="row">
                 <div className="col-md-6 offset-md-3">
                     <div className="card">
-                        <div className="card-body">
+                        <div className="card-body bg-light">
                             { error ? <div className="alert alert-danger" role="alert"> Todos los campos son obligatorios </div> : null }
+                            { errorConexion ? <div className="alert alert-warning" role="alert"> Ups! Intentalo de nuevo </div> : null }
                             { respuesta ? <div className="alert alert-success" role="alert"> Enviado! </div> : null}
                             <form onSubmit={onSubmit} className="needs-validation">
                                 <div className="mb-3">
@@ -135,7 +140,6 @@ const Formulario = () => {
                 </div>
             </div>
         </div>
-    
     );
 }
  
