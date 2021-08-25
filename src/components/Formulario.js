@@ -1,5 +1,5 @@
-import React, {useState, useContext} from 'react';
-import formularioContext from '../context/formulario/formularioContext';
+import React, {useState} from 'react';
+import clienteAxios from '../config/axios';
 
 const Formulario = () => {
 
@@ -17,6 +17,9 @@ const Formulario = () => {
     //state de error
     const [error, actualizarError] = useState(false);
 
+    //state de respuesta
+    const [respuesta, actualizarRespuesta] = useState(false);
+
     //Actualizar state cuando se escriba en el input
     const actualizarState = e =>{
         actualizarForm({
@@ -27,6 +30,21 @@ const Formulario = () => {
 
     //Destructuring
     const {nombre, email, telefono, mensaje} = formulario;
+
+    ////Funciones
+    const envioForm = async formulario => {
+        try {
+            const resultado = await clienteAxios.post('/api/contacto', formulario);
+            console.log(resultado.data);
+            actualizarRespuesta(true);
+        } catch (error) {
+            console.log(error);
+        }
+
+        if(!error){
+
+        }
+    }
 
     //On submit formulario
     const onSubmit = e => {
@@ -40,7 +58,7 @@ const Formulario = () => {
 
         actualizarError(false);
 
-        // envioForm(formulario);
+        envioForm(formulario);
 
         actualizarForm({
             nombre:'',
@@ -57,7 +75,8 @@ const Formulario = () => {
                 <div className="col-md-6 offset-md-3">
                     <div className="card">
                         <div className="card-body">
-                            { error ? <p className="text-danger">Todos los campos son obligatorios</p> : null}
+                            { error ? <div className="alert alert-danger" role="alert"> Todos los campos son obligatorios </div> : null }
+                            { respuesta ? <div className="alert alert-success" role="alert"> Enviado! </div> : null}
                             <form onSubmit={onSubmit} className="needs-validation">
                                 <div className="mb-3">
                                     <label className="form-label">Nombre</label>
@@ -69,7 +88,6 @@ const Formulario = () => {
                                         placeholder="Nombre completo" 
                                         onChange={actualizarState}
                                         value={nombre}
-                                        required
                                     />
                                 </div>
                                 <div className="mb-3">
